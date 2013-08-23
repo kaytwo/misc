@@ -1,3 +1,4 @@
+#!/usr/bin/python
 '''
 Consume audioscrobbles and push them into shm to display in i3bar
 '''
