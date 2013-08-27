@@ -17,6 +17,12 @@
 #   status_command measure-net-speed-i3status.bash
 # }
 
+# start weather checker and spotify spy
+/home/ckanich/workspace/misc/i3status/forecast.py &
+
+
+trap 'kill $(jobs -p)' EXIT
+
 i3status | (read line && echo $line && while :
 do
   read line
@@ -24,7 +30,9 @@ do
   song+=`cat /dev/shm/current_song`
   weather=" "
   weather+=`cat /dev/shm/forecast`
+  blueline=" "
+  blueline+=`cat /dev/shm/nextblue`
   dat=$(/home/ckanich/.config/i3status/measure-net-speed.bash)
-  dat="[{ \"full_text\": \"${dat}\" },{ \"full_text\": \"${song}\" },$weather"
+  dat="[{ \"full_text\": \"${dat}\" },$blueline{ \"full_text\": \"${song}\" },$weather"
   echo "${line/[/$dat}" || exit 1
 done)
